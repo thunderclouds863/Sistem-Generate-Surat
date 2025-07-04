@@ -1,0 +1,231 @@
+<?php
+session_start();
+
+// Periksa apakah user telah login
+if (!isset($_SESSION['user_id'])) {
+  header('Location: login.html');
+  exit();
+}
+
+$username = $_SESSION['username'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokumen Administrasi</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #f8f7f6;
+    }
+
+    header {
+      background-color: #fff;
+      padding: 5px 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .header-content {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .logo-container img {
+      height: 60px;
+    }
+
+    .logout-btn {
+      background-color: #27224d;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: #444;
+    }
+
+    main {
+      text-align: center;
+    }
+
+    .banner {
+      position: relative;
+      height: 300px;
+      background: url('teknik-industri2.png') no-repeat center;
+      background-size: cover;
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .banner-overlay h1 {
+      color: #000;
+      font-size: 36px;
+      font-weight: bold;
+      text-transform: uppercase;
+      background-color: #ffd700;
+      padding-top: 1%;
+      padding-bottom: 1%;
+      padding-left: 2%;
+      padding-right: 2%;
+    }
+
+    .cards-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+      width: 300px;
+      height: 200px;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      background-color: #ff5722;
+      color: #fff;
+      padding: 15px 10px;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .banner {
+        height: 200px;
+      }
+
+      .banner-overlay h1 {
+        font-size: 24px;
+      }
+
+      .cards-container {
+        gap: 15px;
+      }
+
+      .card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="logo-undip.png" alt="Logo Undip">
+      </div>
+      <div>
+        <a href="logout.php" class="logout-btn">
+          <i class="bi bi-box-arrow-right" style="font-size: 25px;"></i> LOGOUT
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <main>
+    <div class="banner">
+      <div class="banner-overlay">
+        <h1>Dokumen Administrasi</h1>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards-container">
+      <div class="card" onclick="handleCardClick(this)">
+        <h3>Surat Undangan</h3>
+        <img src="surat-undangan.png" alt="Surat Undangan">
+      </div>
+      <div class="card" onclick="handleCardClick(this)">
+        <h3>Surat Permohonan</h3>
+        <img src="surat-permohonan.png" alt="Surat Permohonan">
+      </div>
+      <div class="card" onclick="handleCardClick(this)">
+        <h3>Surat Peminjaman</h3>
+        <img src="surat-peminjaman.png" alt="Surat Peminjaman">
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function handleCardClick(card) {
+      const pageTitle = card.querySelector('h3').textContent; // Mengambil teks judul dari elemen <h3>
+
+      // Redirect ke halaman tertentu berdasarkan teks
+      if (pageTitle === 'Surat Undangan') {
+        window.location.href = 'surat-undangan.php';
+      } else if (pageTitle === 'Surat Peminjaman') {
+        window.location.href = 'surat-peminjaman.php';
+      } else if (pageTitle === 'Surat Permohonan') {
+        window.location.href = 'surat-permohonan.php';
+      } else {
+        alert('Halaman tidak ditemukan!');
+      }
+    }
+  </script>
+</body>
+
+</html>

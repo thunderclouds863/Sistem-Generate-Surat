@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teknik Industri Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    /* Sama persis dengan halaman register */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(120deg, #f0f2f5 30%, #1a237e 100%);
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 50px;
+      flex-direction: row;
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 100px;
+    }
+
+    .background-image {
+      width: 100%;
+      height: 100%;
+      background-image: url('teknik-industri.png');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.9);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .login-container {
+      background: #ffd700;
+      padding: 40px;
+      border-radius: 20px;
+      width: 450px;
+      height: 550px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: auto;
+    }
+
+    .login-container h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .form-group {
+      margin-bottom: 10%;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      margin-top: 4%;
+      padding: 14px;
+      background: #ff5722;
+      color: #27224d;
+      border: none;
+      border-radius: 22px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background: #f4511e;
+    }
+
+    .register-btn {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .register-btn a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .register-btn a:hover {
+      color: #ff5722;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .background-image {
+        display: none;
+      }
+
+      .login-container {
+        width: 100%;
+        margin-top: 80px;
+      }
+
+      .logo {
+        width: 80px;
+      }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 20px 0;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: left;
+      align-items: center;
+      padding-left: 5%;
+      gap: 50px;
+    }
+
+    .footer-item {
+      display: flex;
+      align-items: center;
+      color: white;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .footer-item .icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+
+    .footer-item a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .footer-item a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background-image"></div>
+  <div class="container">
+    <div>
+      <div class="login-container">
+        <h1>LOGIN TO YOUR ACCOUNT</h1>
+        <form id="loginForm" action="login.php" method="POST">
+          <div class="form-group">
+            <label>Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+          </div>
+          <div class="form-group">
+            <label>Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="login-btn">LOGIN</button>
+        </form>
+        <div class="register-btn">
+          <p>Belum punya akun? <a href="register.php">Register di sini</a></p>
+        </div>
+        <div class="register-btn">
+          <p>Login sebagai Pengurus HMTI? <a href="login_role.php">Login di sini</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-item">
+      <i class="bi bi-globe" style="font-size: 30px; color: #ffffff;"></i>
+      <p style="padding-left: 4%;">Website<br><a href="#" target="_blank">hmti.kemahasiswaan.undip.ac.id</a></p>
+    </div>
+    <div class="footer-item">
+      <i class="bi bi-envelope-fill" style="font-size: 30px; color: #ffffff;"></i>
+      <p style="padding-left: 4%;">E-Mail<br><a href="#">hmtindipsemarang@gmail.com</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (username === '') {
+      alert('Username cannot be empty');
+      return;
+    }
+
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters long');
+      return;
+    }
+
+    this.submit();
+  });
+</script>
+</body>
+
+</html>
