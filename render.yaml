@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: generate-surat-demo
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
