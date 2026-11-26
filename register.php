@@ -1,258 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teknik Industri Register</title>
+  <title>Daftar Akun — Sistem Surat HMTI UNDIP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Arial', sans-serif;
-    }
-
-    body {
-      height: 100vh;
-      background: linear-gradient(120deg, #f0f2f5 30%, #1a237e 100%);
-      overflow: hidden;
-    }
-
-    .container {
-      display: flex;
-      height: 100vh;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 50px;
-      flex-direction: row;
-    }
-
-    .logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 100px;
-    }
-
-    .background-image {
-      width: 100%;
-      height: 100%;
-      background-image: url('teknik-industri.png');
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.9);
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    .login-container {
-      background: #ffd700;
-      padding: 40px;
-      border-radius: 20px;
-      width: 450px;
-      height: 550px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      margin-left: auto;
-    }
-
-    .login-container h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 30px;
-      font-size: 30px;
-      font-weight: 800;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 600;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background: white;
-      box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .login-btn {
-      width: 100%;
-      margin-top: 20px;
-      padding: 14px;
-      background: #ff5722;
-      color: #27224d;
-      border: none;
-      border-radius: 22px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-
-    .login-btn:hover {
-      background: #f4511e;
-    }
-
-    .register-link {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .register-link a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-
-    .register-link a:hover {
-      color: #ff5722;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 20px;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .background-image {
-        display: none;
-      }
-
-      .login-container {
-        width: 100%;
-        margin-top: 80px;
-      }
-
-      .logo {
-        width: 80px;
-      }
-    }
-
-    footer {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      padding: 20px 0;
-    }
-
-    .footer-container {
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      padding-left: 5%;
-      gap: 50px;
-    }
-
-    .footer-item {
-      display: flex;
-      align-items: center;
-      color: white;
-      font-size: 14px;
-      text-align: left;
-    }
-
-    .footer-item .icon {
-      width: 24px;
-      height: 24px;
-      margin-right: 10px;
-    }
-
-    .footer-item a {
-      color: #ffffff;
-      text-decoration: none;
-    }
-
-    .footer-item a:hover {
-      text-decoration: underline;
-    }
-  </style>
-
+  <link rel="stylesheet" href="assets/css/hmti.css">
 </head>
 
-<body>
-  <div class="background-image"></div>
-  <div class="container">
-    <div>
-      <div class="login-container">
-        <h1>CREATE A NEW ACCOUNT</h1>
-        <form id="registerForm" action="register_process.php" method="POST">
-          <div class="form-group">
-            <label>Username:</label>
-            <input type="text" id="username" name="username" placeholder="Choose a username" required>
-          </div>
-          <div class="form-group">
-            <label>Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-          </div>
-          <div class="form-group">
-            <label>Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
-          </div>
-          <button type="submit" class="login-btn">REGISTER</button>
-        </form>
-        <div class="register-link">
-          <p>Sudah punya akun? <a href="index.html">Login di sini</a></p>
+<body class="auth-page">
+  <div class="auth-backdrop" aria-hidden="true"></div>
+
+  <main class="auth-shell">
+    <section class="auth-context" aria-label="Identitas HMTI UNDIP">
+      <div class="auth-brand-mark">
+        <img src="logo-undip.png" alt="Logo Universitas Diponegoro dan HMTI">
+        <div class="auth-brand-text">
+          <strong>HMTI UNDIP</strong>
+          <span>Sistem Administrasi Surat</span>
         </div>
       </div>
-    </div>
-  </div>
-</body>
 
-<footer>
-  <div class="footer-container">
-    <div class="footer-item">
-      <i class="bi bi-globe" style="font-size: 30px; color: #ffffff;"></i>
-      <p style="padding-left: 4%;">Website<br><a href="#" target="_blank">hmti.kemahasiswaan.undip.ac.id</a></p>
-    </div>
-    <div class="footer-item">
-      <i class="bi bi-envelope-fill" style="font-size: 30px; color: #ffffff;"></i>
-      <p style="padding-left: 4%;">E-Mail<br><a href="#">hmtindipsemarang@gmail.com</a></p>
-    </div>
-  </div>
-</footer>
+      <div class="auth-context-footer">
+        <a class="auth-contact-item" href="https://hmti.kemahasiswaan.undip.ac.id" target="_blank" rel="noopener noreferrer">
+          <span class="auth-contact-icon"><i class="bi bi-globe2"></i></span>
+          <span class="auth-contact-meta">
+            <small>Website</small>
+            <span>hmti.kemahasiswaan.undip.ac.id</span>
+          </span>
+        </a>
+        <a class="auth-contact-item" href="mailto:hmtindipsemarang@gmail.com">
+          <span class="auth-contact-icon"><i class="bi bi-envelope"></i></span>
+          <span class="auth-contact-meta">
+            <small>E-Mail</small>
+            <span>hmtindipsemarang@gmail.com</span>
+          </span>
+        </a>
+      </div>
+    </section>
 
-<script>
-  document.getElementById('registerForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+    <section class="auth-card" aria-label="Form Registrasi Akun">
+      <div class="auth-card-inner">
+        <div class="auth-card-mobile-brand">
+          <img src="logo-undip.png" alt="Logo UNDIP dan HMTI">
+          <div class="auth-brand-text">
+            <strong>HMTI UNDIP</strong>
+            <span>Sistem Administrasi Surat</span>
+          </div>
+        </div>
 
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm_password').value;
+        <div class="auth-card-header">
+          <span class="auth-eyebrow"><i class="bi bi-person-plus"></i> Registrasi Anggota</span>
+          <h1>Buat Akun Baru</h1>
+          <p>Daftarkan akun anggota untuk mulai membuat dokumen administrasi.</p>
+        </div>
 
-    if (username === '') {
-      alert('Username cannot be empty');
-      return;
-    }
+        <form id="registerForm" action="register_process.php" method="POST">
+          <div class="field">
+            <label for="username">Username</label>
+            <div class="input-wrap">
+              <span class="input-icon"><i class="bi bi-person"></i></span>
+              <input class="input-control" type="text" id="username" name="username" placeholder="Pilih username" autocomplete="username" required>
+            </div>
+          </div>
 
-    if (password.length < 6) {
-      alert('Password must be at least 6 characters long');
-      return;
-    }
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-wrap has-toggle">
+              <span class="input-icon"><i class="bi bi-lock"></i></span>
+              <input class="input-control" type="password" id="password" name="password" placeholder="Minimal 6 karakter" autocomplete="new-password" required>
+              <button type="button" class="password-toggle" data-toggle-password="password" aria-label="Tampilkan password">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
 
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
+          <div class="field">
+            <label for="confirm_password">Konfirmasi Password</label>
+            <div class="input-wrap has-toggle">
+              <span class="input-icon"><i class="bi bi-lock-fill"></i></span>
+              <input class="input-control" type="password" id="confirm_password" name="confirm_password" placeholder="Ulangi password" autocomplete="new-password" required>
+              <button type="button" class="password-toggle" data-toggle-password="confirm_password" aria-label="Tampilkan konfirmasi password">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
 
-    this.submit();
-  });
-</script>
+          <button type="submit" class="auth-submit-btn">
+            <span>Daftar Akun</span>
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </form>
+
+        <hr class="auth-divider">
+
+        <div class="auth-footer-links">
+          <p>Sudah punya akun? <a href="index.html">Masuk di sini</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="auth-mobile-footer">
+    <a class="auth-contact-item" href="https://hmti.kemahasiswaan.undip.ac.id" target="_blank" rel="noopener noreferrer">
+      <i class="bi bi-globe2"></i> hmti.kemahasiswaan.undip.ac.id
+    </a>
+    <a class="auth-contact-item" href="mailto:hmtindipsemarang@gmail.com">
+      <i class="bi bi-envelope"></i> hmtindipsemarang@gmail.com
+    </a>
+  </footer>
+
+  <script src="assets/js/hmti.js"></script>
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm_password').value;
+
+      if (username === '') {
+        alert('Username cannot be empty');
+        return;
+      }
+
+      if (password.length < 6) {
+        alert('Password must be at least 6 characters long');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+
+      this.submit();
+    });
+  </script>
 </body>
 
 </html>
