@@ -1,54 +1,48 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "HMTI_System";
+require_once __DIR__ . '/includes/bootstrap.php';
+hmti_require_auth(['anggota']);
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+$surat_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$surat_id || $surat_id <= 0) {
+    hmti_set_flash('error', 'ID surat tidak valid.');
+    header('Location: surat-permohonan.php');
+    exit();
 }
 
-// Retrieve the Surat ID from the URL and validate it
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $surat_id = $_GET['id'];
-} else {
-    die("Invalid Surat ID.");
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !hmti_verify_csrf()) {
+    hmti_set_flash('error', 'Sesi formulir tidak valid. Silakan coba lagi.');
+    header("Location: next-form-surat-permohonan.php?id={$surat_id}");
+    exit();
 }
 
-// Retrieve data from POST (Second form)
-$tempat = $_POST['tempat'] ?? null;
-$isi_permohonan = $_POST['isi'] ?? null;
-$bidang = $_POST['bidang'] ?? null;
-$ketua_panitia = $_POST['ketuaPanitia'] ?? null;
-$nim = $_POST['nim'] ?? null;
+$tempat = trim($_POST['tempat'] ?? '');
+$isi_permohonan = trim($_POST['isi'] ?? '');
+$bidang = trim($_POST['bidang'] ?? '');
+$ketua_panitia = trim($_POST['ketuaPanitia'] ?? '');
+$nim = trim($_POST['nim'] ?? '');
 
-
-if (!$tempat || !$isi_permohonan || !$bidang || !$ketua_panitia || !$nim) {
-    die("Error: All fields are required.");
+if ($tempat === '' || $isi_permohonan === '' || $bidang === '' || $ketua_panitia === '' || $nim === '') {
+    hmti_set_flash('error', 'Semua kolom detail wajib diisi.');
+    header("Location: next-form-surat-permohonan.php?id={$surat_id}");
+    exit();
 }
 
-// Update the surat_undangan table with the additional details using prepared statement
+$conn = hmti_db();
 $stmt = $conn->prepare(
-    "UPDATE surat_permohonan
+    'UPDATE surat_permohonan
      SET tempat = ?, isi_permohonan = ?, bidang = ?, nama_penanggung_jawab = ?, nim_penanggung_jawab = ?
-     WHERE id = ?"
+     WHERE id = ?'
 );
-
-$stmt->bind_param("sssssi", $tempat, $isi_permohonan, $bidang, $ketua_panitia, $nim, $surat_id);
-
+$stmt->bind_param('sssssi', $tempat, $isi_permohonan, $bidang, $ketua_panitia, $nim, $surat_id);
 
 if ($stmt->execute()) {
     $stmt->close();
-    // Redirect to surat-undangan.php
-    header("Location: surat-permohonan.php");
+    hmti_set_flash('success', 'Pengajuan Surat Permohonan berhasil disimpan dan menunggu verifikasi Sekretaris Himpunan.');
+    header('Location: surat-permohonan.php');
     exit();
-} else {
-    echo "Error: " . $stmt->error;
 }
 
-$conn->close();
-?>
+$stmt->close();
+hmti_set_flash('error', 'Gagal menyimpan detail surat permohonan.');
+header("Location: next-form-surat-permohonan.php?id={$surat_id}");
+exit();

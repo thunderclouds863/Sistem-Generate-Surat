@@ -42,10 +42,11 @@ class SuratGenerator:
     def __init__(self):
         try:
             self.conn = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="",
-                database="HMTI_System"
+                host=os.getenv("DB_HOST", "127.0.0.1"),
+                port=int(os.getenv("DB_PORT", "3306")),
+                user=os.getenv("DB_USER", "root"),
+                password=os.getenv("DB_PASS", ""),
+                database=os.getenv("DB_NAME", "HMTI_System")
             )
             self.cursor = self.conn.cursor(dictionary=True)
         except mysql.connector.Error as e:

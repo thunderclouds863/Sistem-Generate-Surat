@@ -1,13 +1,20 @@
 <?php
-session_start(); // Memulai session
+require_once __DIR__ . '/includes/bootstrap.php';
 
-// Hapus semua session data
-session_unset();
-
-// Hancurkan session
+$_SESSION = [];
+if (ini_get('session.use_cookies')) {
+    $params = session_get_cookie_params();
+    setcookie(
+        session_name(),
+        '',
+        time() - 42000,
+        $params['path'],
+        $params['domain'],
+        $params['secure'],
+        $params['httponly']
+    );
+}
 session_destroy();
 
-// Arahkan kembali ke halaman login setelah logout
-header("Location: index.html");
+header('Location: index.html');
 exit();
-?>
