@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/includes/bootstrap.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -13,18 +14,8 @@
 </head>
 
 <body class="auth-page">
-  <div class="auth-backdrop" aria-hidden="true"></div>
-
-  <main class="auth-shell">
-    <section class="auth-context" aria-label="Identitas HMTI UNDIP">
-      <div class="auth-brand-mark">
-        <img src="logo-undip.png" alt="Logo Universitas Diponegoro dan HMTI">
-        <div class="auth-brand-text">
-          <strong>HMTI UNDIP</strong>
-          <span>Sistem Administrasi Surat</span>
-        </div>
-      </div>
-
+  <div class="auth-split">
+    <aside class="auth-visual" aria-label="Gedung Teknik Industri UNDIP">
       <div class="auth-context-footer">
         <a class="auth-contact-item" href="https://hmti.kemahasiswaan.undip.ac.id" target="_blank" rel="noopener noreferrer">
           <span class="auth-contact-icon"><i class="bi bi-globe2"></i></span>
@@ -41,90 +32,90 @@
           </span>
         </a>
       </div>
-    </section>
+    </aside>
 
-    <section class="auth-card" aria-label="Form Login Anggota">
-      <div class="auth-card-inner">
-        <div class="auth-card-mobile-brand">
-          <img src="logo-undip.png" alt="Logo UNDIP dan HMTI">
-          <div class="auth-brand-text">
-            <strong>HMTI UNDIP</strong>
-            <span>Sistem Administrasi Surat</span>
-          </div>
-        </div>
-
-        <nav class="auth-tabs" aria-label="Pilih mode masuk">
-          <a href="index.html" class="auth-tab is-active" aria-current="page">Anggota</a>
-          <a href="login_role.php" class="auth-tab">Pengurus HMTI</a>
-        </nav>
-
-        <div class="auth-card-header">
-          <h1>Masuk ke Akun</h1>
-          <p>Gunakan akun anggota HMTI untuk mengajukan dan memantau surat.</p>
-        </div>
-
-        <form id="loginForm" action="login.php" method="POST">
-          <div class="field">
-            <label for="username">Username</label>
-            <div class="input-wrap">
-              <span class="input-icon"><i class="bi bi-person"></i></span>
-              <input class="input-control" type="text" id="username" name="username" placeholder="Masukkan username" autocomplete="username" required>
+    <main class="auth-panel">
+      <section class="auth-card" aria-label="Form Login Anggota">
+        <div class="auth-card-inner">
+          <div class="auth-card-brand">
+            <img src="logo-undip.png" alt="Logo Universitas Diponegoro dan HMTI">
+            <div class="auth-brand-text">
+              <strong>HMTI UNDIP</strong>
+              <span>Sistem Administrasi Surat</span>
             </div>
           </div>
 
-          <div class="field">
-            <label for="password">Password</label>
-            <div class="input-wrap has-toggle">
-              <span class="input-icon"><i class="bi bi-lock"></i></span>
-              <input class="input-control" type="password" id="password" name="password" placeholder="Masukkan password" autocomplete="current-password" required>
-              <button type="button" class="password-toggle" data-toggle-password="password" aria-label="Tampilkan password">
-                <i class="bi bi-eye"></i>
-              </button>
-            </div>
+          <nav class="auth-tabs" aria-label="Pilih mode masuk">
+            <a href="index.html" class="auth-tab is-active" aria-current="page">Anggota</a>
+            <a href="login_role.php" class="auth-tab">Pengurus HMTI</a>
+          </nav>
+
+          <div class="auth-card-header">
+            <h1>Masuk ke Akun</h1>
+            <p>Gunakan akun anggota HMTI untuk mengajukan dan memantau surat.</p>
           </div>
 
-          <button type="submit" class="auth-submit-btn">
-            <span>Masuk</span>
-            <i class="bi bi-arrow-right"></i>
-          </button>
-        </form>
+          <?php echo hmti_render_flash(); ?>
 
-        <hr class="auth-divider">
+          <form id="loginForm" action="login.php" method="POST">
+            <div class="field">
+              <label for="username">Username</label>
+              <div class="input-wrap">
+                <span class="input-icon"><i class="bi bi-person"></i></span>
+                <input class="input-control" type="text" id="username" name="username" placeholder="Masukkan username" autocomplete="username" required>
+              </div>
+            </div>
 
-        <div class="auth-footer-links">
-          <p>Belum punya akun? <a href="register.php">Daftar di sini</a></p>
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="input-wrap has-toggle">
+                <span class="input-icon"><i class="bi bi-lock"></i></span>
+                <input class="input-control" type="password" id="password" name="password" placeholder="Masukkan password" autocomplete="current-password" required>
+                <button type="button" class="password-toggle" data-toggle-password="password" aria-label="Tampilkan password">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="auth-submit-btn">
+              <span>Masuk</span>
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </form>
+
+          <hr class="auth-divider">
+
+          <div class="auth-footer-links">
+            <p>Belum punya akun? <a href="register.php">Daftar di sini</a></p>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer class="auth-mobile-footer">
-    <a class="auth-contact-item" href="https://hmti.kemahasiswaan.undip.ac.id" target="_blank" rel="noopener noreferrer">
-      <i class="bi bi-globe2"></i> hmti.kemahasiswaan.undip.ac.id
-    </a>
-    <a class="auth-contact-item" href="mailto:hmtindipsemarang@gmail.com">
-      <i class="bi bi-envelope"></i> hmtindipsemarang@gmail.com
-    </a>
-  </footer>
+      <footer class="auth-mobile-footer">
+        <a href="https://hmti.kemahasiswaan.undip.ac.id" target="_blank" rel="noopener noreferrer">
+          <i class="bi bi-globe2"></i> hmti.kemahasiswaan.undip.ac.id
+        </a>
+        <a href="mailto:hmtindipsemarang@gmail.com">
+          <i class="bi bi-envelope"></i> hmtindipsemarang@gmail.com
+        </a>
+      </footer>
+    </main>
+  </div>
 
   <script src="assets/js/hmti.js"></script>
   <script>
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
-
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
-
       if (username === '') {
         alert('Username cannot be empty');
         return;
       }
-
       if (password.length < 6) {
         alert('Password must be at least 6 characters long');
         return;
       }
-
       this.submit();
     });
   </script>

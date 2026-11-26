@@ -1,13 +1,13 @@
 <?php
-$conn = new mysqli('localhost', 'root', '', 'HMTI_System');
-if ($conn->connect_error) {
-  die("Koneksi gagal: " . $conn->connect_error);
-}
+require_once __DIR__ . '/includes/bootstrap.php';
+hmti_require_auth(['anggota']);
+$conn = hmti_db();
 
 // Query data dari tabel surat_permohonan dan status dari tabel surat
 $sql = "SELECT sp.id, sp.nomor_surat, sp.bidang, s.status
         FROM surat_permohonan sp
-        JOIN surat s ON sp.id = s.id";
+        JOIN surat s ON sp.id = s.id
+        ORDER BY sp.id DESC";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -56,6 +56,7 @@ $result = $conn->query($sql);
     </section>
 
     <div class="page-container">
+      <?php echo hmti_render_flash(); ?>
       <div class="toolbar">
         <div class="search-box">
           <i class="bi bi-search"></i>

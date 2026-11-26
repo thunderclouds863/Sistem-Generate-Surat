@@ -1,18 +1,11 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "HMTI_System";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+require_once __DIR__ . '/includes/bootstrap.php';
+hmti_require_auth(['sekhim']);
+$conn = hmti_db();
 
 $sql = "SELECT sp.id, sp.nomor_surat, s.status FROM surat_peminjaman sp
-        JOIN surat s ON sp.id = s.id";
+        JOIN surat s ON sp.id = s.id
+        ORDER BY sp.id DESC";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -62,6 +55,7 @@ $result = $conn->query($sql);
     </section>
 
     <div class="page-container">
+      <?php echo hmti_render_flash(); ?>
       <div class="toolbar">
         <div class="search-box">
           <i class="bi bi-search"></i>
@@ -115,12 +109,14 @@ $result = $conn->query($sql);
                       <?php if ($canReview): ?>
                         <div class="action-group">
                           <form action="update-status-sekhim.php" method="POST">
+                            <?php echo hmti_csrf_field(); ?>
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
                             <button type="submit" name="approve" class="btn btn-approve btn-sm">
                               <i class="bi bi-check-lg"></i> Setujui
                             </button>
                           </form>
                           <form action="update-status-sekhim.php" method="POST">
+                            <?php echo hmti_csrf_field(); ?>
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
                             <button type="submit" name="reject" class="btn btn-reject btn-sm">
                               <i class="bi bi-x-lg"></i> Tolak

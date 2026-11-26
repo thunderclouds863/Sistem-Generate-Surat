@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/includes/bootstrap.php';
+hmti_require_auth(['anggota']);
+?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -55,7 +59,9 @@
         </div>
 
         <div class="form-card-body">
+          <?php echo hmti_render_flash(); ?>
           <form id="dataForm" action="submit-form-surat-peminjaman.php" method="POST">
+            <?php echo hmti_csrf_field(); ?>
             <div class="form-section">
               <div class="form-section-title">Tanggal Peminjaman</div>
               <div class="form-grid-3">

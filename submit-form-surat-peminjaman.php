@@ -1,82 +1,88 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "HMTI_System";
+require_once __DIR__ . '/includes/bootstrap.php';
+hmti_require_auth(['anggota']);
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: form-surat-peminjaman.php');
+    exit();
 }
 
-// Retrieve data from POST and validate
-$tanggal = $_POST['tanggal'] ?? null;
-$bulan = $_POST['bulan'] ?? null;
-$tahun = $_POST['tahun'] ?? null;
-$nomor = $_POST['nomor'] ?? null;
-$program_kerja = $_POST['programKerja'] ?? null;
-$bulan_romawi = $_POST['bulanRomawi'] ?? null;
-$tahun_input = $_POST['tahunInput'] ?? null;
-$isi_peminjaman = $_POST['isi_peminjaman'] ?? null;
-$nama_kegiatan = $_POST['kegiatan'] ?? null;
-$instansi = $_POST['instansi'] ?? null;
-$waktu_mulai = $_POST['waktuMulai'] ?? null;
-$waktu_selesai = $_POST['waktuSelesai'] ?? null;
-$lokasi_instansi = $_POST['lokasiinstansi'] ?? null;
-$tempat = $_POST['tempat'] ?? null;
-$bidang = $_POST['bidang'] ?? null;
-$ketua_panitia = $_POST['ketuaPanitia'] ?? null;
-$jabatanketua_panitia = $_POST['jabatanketuaPanitia'] ?? null;
-$nim = $_POST['nim'] ?? null;
-$nohp = $_POST['nohp'] ?? null;
+if (!hmti_verify_csrf()) {
+    hmti_set_flash('error', 'Sesi formulir tidak valid. Silakan coba lagi.');
+    header('Location: form-surat-peminjaman.php');
+    exit();
+}
 
-// Check required fields
+$tanggal = (int) ($_POST['tanggal'] ?? 0);
+$bulan = (int) ($_POST['bulan'] ?? 0);
+$tahun = (int) ($_POST['tahun'] ?? 0);
+$nomor = trim($_POST['nomor'] ?? '');
+$program_kerja = trim($_POST['programKerja'] ?? '');
+$bulan_romawi = trim($_POST['bulanRomawi'] ?? '');
+$tahun_input = trim($_POST['tahunInput'] ?? '');
+$nama_kegiatan = trim($_POST['kegiatan'] ?? '');
+$instansi = trim($_POST['instansi'] ?? '');
+$waktu_mulai = trim($_POST['waktuMulai'] ?? '');
+$waktu_selesai = trim($_POST['waktuSelesai'] ?? '');
+$lokasi_instansi = trim($_POST['lokasiinstansi'] ?? '');
+
 if (
-  !$tanggal || !$bulan || !$tahun || !$nomor || !$program_kerja || !$bulan_romawi || !$tahun_input ||
-  !$nama_kegiatan || !$instansi || !$waktu_mulai || !$waktu_selesai || !$lokasi_instansi
+    !checkdate($bulan, $tanggal, $tahun) || $nomor === '' || $program_kerja === '' || $bulan_romawi === '' || $tahun_input === '' ||
+    $nama_kegiatan === '' || $instansi === '' || $waktu_mulai === '' || $waktu_selesai === '' || $lokasi_instansi === ''
 ) {
-  die("Error: All fields are required.");
+    hmti_set_flash('error', 'Semua kolom wajib diisi dengan format tanggal yang valid.');
+    header('Location: form-surat-peminjaman.php');
+    exit();
 }
 
-// Build nomor_surat
-$nomor_surat = "{$nomor}/SUnd/{$program_kerja}/HMTI/{$bulan_romawi}/{$tahun_input}";
+$nomor_surat = "{$nomor}/SPem/{$program_kerja}/HMTI/{$bulan_romawi}/{$tahun_input}";
+$tanggal_sql = sprintf('%04d-%02d-%02d', $tahun, $bulan, $tanggal);
 
-// Use prepared statements for both queries
-// Insert into `surat` table
-$stmt = $conn->prepare("INSERT INTO surat (jenis_surat) VALUES (?)");
-$jenis_surat = "Peminjaman";
-$stmt->bind_param("s", $jenis_surat);
+$conn = hmti_db();
 
-if ($stmt->execute()) {
-    $surat_id = $stmt->insert_id; // Get the last inserted ID
+$dup = $conn->prepare('SELECT id FROM surat_peminjaman WHERE nomor_surat = ? LIMIT 1');
+$dup->bind_param('s', $nomor_surat);
+$dup->execute();
+$dup->store_result();
+if ($dup->num_rows > 0) {
+    $dup->close();
+    hmti_set_flash('error', "Nomor surat {$nomor_surat} sudah digunakan. Silakan gunakan nomor lain.");
+    header('Location: form-surat-peminjaman.php');
+    exit();
+}
+$dup->close();
+
+$conn->begin_transaction();
+try {
+    $stmt = $conn->prepare('INSERT INTO surat (jenis_surat, status) VALUES (?, ?)');
+    $jenis_surat = 'Peminjaman';
+    $status = 'Pending';
+    $stmt->bind_param('ss', $jenis_surat, $status);
+    if (!$stmt->execute()) {
+        throw new RuntimeException($stmt->error);
+    }
+    $surat_id = (int) $stmt->insert_id;
     $stmt->close();
 
-    // Insert into `Permohonan` table
     $stmt2 = $conn->prepare(
-        "INSERT INTO surat_peminjaman
-        (nomor_surat, program_kerja, instansi, lokasi_instansi, nama_kegiatan, tanggal, waktu_mulai, waktu_selesai, tempat, isi_peminjaman, bidang, nama_penanggung_jawab, jabatanketua_panitia, nim_penanggung_jawab, nomor_hp)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)"
+        'INSERT INTO surat_peminjaman (id, nomor_surat, program_kerja, instansi, lokasi_instansi, nama_kegiatan, tanggal, waktu_mulai, waktu_selesai)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
-    $tanggal = "$tahun-$bulan-$tanggal";
     $stmt2->bind_param(
-        "sssssssssssssss",
-        $nomor_surat, $program_kerja, $instansi, $lokasi_instansi, $nama_kegiatan, $tanggal, $waktu_mulai, $waktu_selesai, $tempat, $isi_peminjaman, $bidang, $ketua_panitia, $jabatanketua_panitia, $nim, $nohp
+        'issssssss',
+        $surat_id, $nomor_surat, $program_kerja, $instansi, $lokasi_instansi, $nama_kegiatan, $tanggal_sql, $waktu_mulai, $waktu_selesai
     );
-
-    if ($stmt2->execute()) {
-        $stmt2->close();
-        // Redirect to the next form page
-        header("Location: next-form-surat-peminjaman.php?id=$surat_id");
-        exit();
-    } else {
-        echo "Error: " . $stmt2->error;
+    if (!$stmt2->execute()) {
+        throw new RuntimeException($stmt2->error);
     }
-} else {
-    echo "Error: " . $stmt->error;
-}
+    $stmt2->close();
 
-$conn->close();
-?>
+    $conn->commit();
+    header("Location: next-form-surat-peminjaman.php?id={$surat_id}");
+    exit();
+} catch (Throwable $e) {
+    $conn->rollback();
+    hmti_set_flash('error', 'Gagal menyimpan data tahap 1. Pastikan nomor surat belum digunakan.');
+    header('Location: form-surat-peminjaman.php');
+    exit();
+}

@@ -1,12 +1,6 @@
 <?php
-session_start();
-
-// Periksa apakah user telah login
-if (!isset($_SESSION['user_id'])) {
-  header('Location: index.html');
-  exit();
-}
-
+require_once __DIR__ . '/includes/bootstrap.php';
+hmti_require_auth(['anggota']);
 $username = $_SESSION['username'];
 ?>
 <!DOCTYPE html>
@@ -50,11 +44,16 @@ $username = $_SESSION['username'];
   </header>
 
   <main class="app-main">
-    <section class="hero-banner" style="background-image: url('teknik-industri2.png');">
-      <div class="hero-inner">
-        <span class="hero-eyebrow">Portal Anggota HMTI</span>
-        <h1>Dokumen Administrasi</h1>
-        <p class="hero-subtitle">Pilih jenis surat untuk membuat pengajuan baru, memantau status persetujuan, dan mengunduh dokumen resmi.</p>
+    <section class="hero-split">
+      <div class="hero-split-inner">
+        <div class="hero-split-copy">
+          <span class="hero-eyebrow">Portal Anggota HMTI</span>
+          <h1>Dokumen Administrasi</h1>
+          <p class="hero-subtitle">Pilih jenis surat untuk membuat pengajuan baru, memantau status persetujuan, dan mengunduh dokumen resmi.</p>
+        </div>
+        <div class="hero-split-media">
+          <img src="teknik-industri2.png" alt="Gedung Departemen Teknik Industri Universitas Diponegoro">
+        </div>
       </div>
     </section>
 
