@@ -3,229 +3,131 @@ session_start();
 
 // Periksa apakah user telah login
 if (!isset($_SESSION['user_id'])) {
-  header('Location: login.html');
+  header('Location: index.html');
   exit();
 }
 
 $username = $_SESSION['username'];
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dokumen Administrasi</title>
+  <title>Panel Ketua Himpunan — HMTI UNDIP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Arial', sans-serif;
-    }
-
-    body {
-      background-color: #f8f7f6;
-    }
-
-    header {
-      background-color: #fff;
-      padding: 5px 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-bottom: 2px solid #ddd;
-    }
-
-    .header-content {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo-container {
-      flex-grow: 1;
-      text-align: center;
-    }
-
-    .logo-container img {
-      height: 60px;
-    }
-
-    .logout-btn {
-      background-color: #27224d;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: 0.3s;
-    }
-
-    .logout-btn:hover {
-      background-color: #444;
-    }
-
-    main {
-      text-align: center;
-    }
-
-    .banner {
-      position: relative;
-      height: 300px;
-      background: url('teknik-industri2.png') no-repeat center;
-      background-size: cover;
-    }
-
-    .banner-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .banner-overlay h1 {
-      color: #000;
-      font-size: 36px;
-      font-weight: bold;
-      text-transform: uppercase;
-      background-color: #ffd700;
-      padding-top: 1%;
-      padding-bottom: 1%;
-      padding-left: 2%;
-      padding-right: 2%;
-    }
-
-    .cards-container {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px 20px;
-      flex-wrap: wrap;
-    }
-
-    .card {
-      background-color: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: 0.3s;
-      width: 300px;
-      height: 200px;
-      text-align: center;
-    }
-
-    .card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .card h3 {
-      background-color: #ff5722;
-      color: #fff;
-      padding: 15px 10px;
-      font-size: 18px;
-      text-transform: uppercase;
-    }
-
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .banner {
-        height: 200px;
-      }
-
-      .banner-overlay h1 {
-        font-size: 24px;
-      }
-
-      .cards-container {
-        gap: 15px;
-      }
-
-      .card {
-        width: 90%;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/hmti.css">
 </head>
 
-<body>
-  <!-- Header -->
-  <header>
-    <div class="header-content">
-      <div class="logo-container">
-        <img src="logo-undip.png" alt="Logo Undip">
+<body class="app-page">
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="header-left">
+        <a href="homepage-kahim.html" class="brand-link">
+          <img src="logo-undip.png" alt="Logo UNDIP dan HMTI">
+          <div class="brand-meta">
+            <strong>HMTI UNDIP</strong>
+            <span>Sistem Administrasi Surat</span>
+          </div>
+        </a>
       </div>
-      <div>
-        <a href="logout.php" class="logout-btn">
-          <i class="bi bi-box-arrow-right" style="font-size: 25px;"></i> LOGOUT
+
+      <div class="header-right">
+        <span class="role-chip">
+          <i class="bi bi-shield-check"></i>
+          Ketua Himpunan · <?php echo htmlspecialchars($username); ?>
+        </span>
+        <a href="logout.php" class="btn btn-navy btn-sm">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Keluar</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Banner -->
-  <main>
-    <div class="banner">
-      <div class="banner-overlay">
+  <main class="app-main">
+    <section class="hero-banner" style="background-image: url('teknik-industri2.png');">
+      <div class="hero-inner">
+        <span class="hero-eyebrow">Panel Persetujuan · Ketua Himpunan</span>
         <h1>Dokumen Administrasi</h1>
+        <p class="hero-subtitle">Tinjau surat yang telah diverifikasi Sekretaris Himpunan dan berikan pengesahan akhir.</p>
       </div>
-    </div>
+    </section>
 
-    <!-- Cards -->
-    <div class="cards-container">
-      <div class="card" onclick="handleCardClick(this)">
-        <h3>Surat Undangan</h3>
-        <img src="surat-undangan.png" alt="Surat Undangan">
+    <div class="page-container">
+      <div class="section-header">
+        <div>
+          <h2>Kategori Surat untuk Disetujui</h2>
+          <p>Pilih kategori dokumen untuk meninjau daftar pengajuan masuk.</p>
+        </div>
       </div>
-      <div class="card" onclick="handleCardClick(this)">
-        <h3>Surat Permohonan</h3>
-        <img src="surat-permohonan.png" alt="Surat Permohonan">
-      </div>
-      <div class="card" onclick="handleCardClick(this)">
-        <h3>Surat Peminjaman</h3>
-        <img src="surat-peminjaman.png" alt="Surat Peminjaman">
+
+      <div class="portal-grid">
+        <a href="surat-undangan-kahim.php" class="portal-card">
+          <div class="portal-card-media">
+            <span class="portal-card-badge"><i class="bi bi-envelope-paper"></i></span>
+            <img src="surat-undangan.png" alt="Surat Undangan">
+          </div>
+          <div class="portal-card-body">
+            <h3>Surat Undangan</h3>
+            <p>Persetujuan akhir surat undangan kegiatan dan acara resmi HMTI.</p>
+            <div class="portal-card-action">
+              <span>Tinjau Pengajuan</span>
+              <i class="bi bi-arrow-right"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="surat-permohonan-kahim.php" class="portal-card">
+          <div class="portal-card-media">
+            <span class="portal-card-badge"><i class="bi bi-file-earmark-text"></i></span>
+            <img src="surat-permohonan.png" alt="Surat Permohonan">
+          </div>
+          <div class="portal-card-body">
+            <h3>Surat Permohonan</h3>
+            <p>Persetujuan akhir surat permohonan izin, kerja sama, dan dukungan acara.</p>
+            <div class="portal-card-action">
+              <span>Tinjau Pengajuan</span>
+              <i class="bi bi-arrow-right"></i>
+            </div>
+          </div>
+        </a>
+
+        <a href="surat-peminjaman-kahim.php" class="portal-card">
+          <div class="portal-card-media">
+            <span class="portal-card-badge"><i class="bi bi-box-seam"></i></span>
+            <img src="surat-peminjaman.png" alt="Surat Peminjaman">
+          </div>
+          <div class="portal-card-body">
+            <h3>Surat Peminjaman</h3>
+            <p>Persetujuan akhir peminjaman ruang, fasilitas, dan sarana kegiatan.</p>
+            <div class="portal-card-action">
+              <span>Tinjau Pengajuan</span>
+              <i class="bi bi-arrow-right"></i>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
   </main>
 
-  <script>
-    function handleCardClick(card) {
-      const pageTitle = card.querySelector('h3').textContent; // Mengambil teks judul dari elemen <h3>
-
-      // Redirect ke halaman tertentu berdasarkan teks
-      if (pageTitle === 'Surat Undangan') {
-        window.location.href = 'surat-undangan-kahim.php';
-      } else if (pageTitle === 'Surat Peminjaman') {
-        window.location.href = 'surat-peminjaman-kahim.php';
-      } else if (pageTitle === 'Surat Permohonan') {
-        window.location.href = 'surat-permohonan-kahim.php';
-      } else {
-        alert('Halaman tidak ditemukan!');
-      }
-    }
-  </script>
+  <footer class="app-footer">
+    <div class="app-footer-inner">
+      <span>Himpunan Mahasiswa Teknik Industri · Universitas Diponegoro</span>
+      <div class="app-footer-links">
+        <a href="https://hmti.kemahasiswaan.undip.ac.id" target="_blank" rel="noopener noreferrer">
+          <i class="bi bi-globe2"></i> hmti.kemahasiswaan.undip.ac.id
+        </a>
+        <a href="mailto:hmtindipsemarang@gmail.com">
+          <i class="bi bi-envelope"></i> hmtindipsemarang@gmail.com
+        </a>
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>

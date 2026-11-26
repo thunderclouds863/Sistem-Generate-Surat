@@ -1,283 +1,157 @@
-
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Data Kegiatan</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 50px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo-container {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 10%;
-        }
-
-        .logo {
-            width: 60px;
-            height: auto;
-        }
-
-        .back-button {
-            background-color: #27224d;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
-
-        .back-button:hover {
-            background-color: #1b2f54;
-        }
-
-        h1 {
-            color: #1a237e;
-            text-align: center;
-            text-decoration: underline;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .date-selects {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        select,
-        input {
-            width: 95%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-top: 5px;
-        }
-
-        .horizontal-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            align-items: center;
-        }
-
-        .horizontal-group .form-item {
-            flex: 1;
-        }
-
-        .horizontal-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #1a237e;
-        }
-
-        .horizontal-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .row {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .col {
-            flex: 1;
-        }
-
-        label {
-            color: #1a237e;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .next-button {
-            background-color: #ff5722;
-            color: white;
-            padding: 10px 30px;
-            border: none;
-            border-radius: 5px;
-            float: right;
-            cursor: pointer;
-
-        }
-
-        header {
-            background-color: #fff;
-            padding: 20px 0px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 2px solid #ddd;
-            position: relative;
-        }
-
-        #tanggal, #bulan, #tahun{
-            width:13%
-        }
-
-        #nomor, #programKerja, #bulanRomawi {
-            width: 5%;
-        }
-
-        #tahunInput {
-            width: 18%;
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buat Surat Undangan (Tahap 1) — HMTI UNDIP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/hmti.css">
 </head>
 
-<body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <div class="logo-container">
-                    <img src="logo-undip.png" alt="Logo Undip">
-                </div>
-                <a href="surat-undangan.html" class="back-button">
-                    <i class="bi bi-box-arrow-left" style="font-size: 25px;"></i> BACK
-                </a>
-            </div>
-        </header>
+<body class="app-page">
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="header-left">
+        <a href="homepage.php" class="brand-link">
+          <img src="logo-undip.png" alt="Logo UNDIP dan HMTI">
+          <div class="brand-meta">
+            <strong>HMTI UNDIP</strong>
+            <span>Formulir Surat Undangan</span>
+          </div>
+        </a>
+      </div>
 
-        <h1>ISI DATA BERIKUT:</h1>
-
-        <form id="dataForm" action="submit-form-surat-undangan.php" method="POST">
-            <div class="date-selects">
-                <select id="tanggal" name="tanggal">
-                    <option value="">Tanggal</option>
-                    <!-- JS will populate this -->
-                </select>
-                <select id="bulan" name="bulan">
-                    <option value="">Bulan</option>
-                    <!-- JS will populate this -->
-                </select>
-                <select id="tahun" name="tahun">
-                    <option value="">Tahun</option>
-                    <!-- JS will populate this -->
-                </select>
-            </div>
-
-            <!-- Nomor Surat Group -->
-            <label>Nomor Surat:</label>
-            <div class="form-group horizontal-group">
-                    <label>Nomor:</label>
-                    <input type="text" id="nomor" name="nomor" required>
-                    <label>Program Kerja:</label>
-                    <input type="text" id="programKerja" name="program_kerja" required>
-                    <label>Bulan Romawi:</label>
-                    <input type="text" id="bulanRomawi" name="bulan_romawi" required>
-                    <label>Tahun:</label>
-                    <input type="text" id="tahunInput" name="tahun_input" required>
-            </div>
-
-            <!-- Other Fields -->
-            <div class="row">
-                <div class="col">
-                    <label>Jabatan Tamu Undangan:</label>
-                    <input type="text" id="jabatanTamu" name="jabatan_tamu" required>
-                </div>
-                <div class="col">
-                    <label>Nama Kegiatan:</label>
-                    <input type="text" id="namaKegiatan" name="nama_kegiatan" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <label>Nama Tamu Undangan:</label>
-                    <input type="text" id="namaTamu" name="nama_tamu" required>
-                </div>
-                <div class="col">
-                    <label>Waktu Mulai:</label>
-                    <input type="time" id="waktuMulai" name="waktu_mulai" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <label>Lokasi Tamu Undangan:</label>
-                    <input type="text" id="lokasiTamu" name="lokasi_tamu" required>
-                </div>
-                <div class="col">
-                    <label>Waktu Selesai:</label>
-                    <input type="time" id="waktuSelesai" name="waktu_selesai" required>
-                </div>
-            </div>
-
-            <button type="submit" class="next-button">NEXT</button>
-        </form>
+      <div class="header-right">
+        <a href="surat-undangan.php" class="btn btn-outline btn-sm">
+          <i class="bi bi-arrow-left"></i>
+          <span>Kembali</span>
+        </a>
+      </div>
     </div>
+  </header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Populate date dropdowns
-            const tanggalSelect = document.getElementById('tanggal');
-            const bulanSelect = document.getElementById('bulan');
-            const tahunSelect = document.getElementById('tahun');
+  <main class="app-main">
+    <div class="form-page-container">
+      <div class="form-stepper-bar" aria-label="Progres pengisian formulir">
+        <div class="form-step-pill is-current">
+          <span class="num">1</span>
+          <span class="step-text">Informasi Utama</span>
+        </div>
+        <span class="form-step-connector" aria-hidden="true"></span>
+        <div class="form-step-pill">
+          <span class="num">2</span>
+          <span class="step-text">Detail &amp; Penanggung Jawab</span>
+        </div>
+      </div>
 
-            for (let i = 1; i <= 31; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                tanggalSelect.appendChild(option);
-            }
+      <section class="form-card">
+        <div class="form-card-header">
+          <h1>Buat Surat Undangan</h1>
+          <p>Lengkapi tanggal kegiatan, penomoran surat, serta informasi tamu undangan.</p>
+        </div>
 
-            const bulanList = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            bulanList.forEach((bulan, index) => {
-                const option = document.createElement('option');
-                option.value = index + 1;
-                option.textContent = bulan;
-                bulanSelect.appendChild(option);
-            });
+        <div class="form-card-body">
+          <form id="dataForm" action="submit-form-surat-undangan.php" method="POST">
+            <div class="form-section">
+              <div class="form-section-title">Tanggal Kegiatan</div>
+              <div class="form-grid-3">
+                <div class="field">
+                  <label for="tanggal">Tanggal</label>
+                  <select class="select-control" id="tanggal" name="tanggal" required>
+                    <option value="">Pilih tanggal</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="bulan">Bulan</label>
+                  <select class="select-control" id="bulan" name="bulan" required>
+                    <option value="">Pilih bulan</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="tahun">Tahun</label>
+                  <select class="select-control" id="tahun" name="tahun" required>
+                    <option value="">Pilih tahun</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
-            const currentYear = new Date().getFullYear();
-            for (let i = currentYear - 5; i <= currentYear + 5; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                tahunSelect.appendChild(option);
-            }
-        });
-    </script>
+            <div class="form-section">
+              <div class="form-section-title">Nomor Surat</div>
+              <div class="form-grid-4">
+                <div class="field">
+                  <label for="nomor">Nomor</label>
+                  <input class="input-control" type="text" id="nomor" name="nomor" placeholder="001" required>
+                </div>
+                <div class="field">
+                  <label for="programKerja">Program Kerja</label>
+                  <input class="input-control" type="text" id="programKerja" name="program_kerja" placeholder="SEMNAS" required>
+                </div>
+                <div class="field">
+                  <label for="bulanRomawi">Bulan Romawi</label>
+                  <input class="input-control" type="text" id="bulanRomawi" name="bulan_romawi" placeholder="XI" required>
+                </div>
+                <div class="field">
+                  <label for="tahunInput">Tahun</label>
+                  <input class="input-control" type="text" id="tahunInput" name="tahun_input" placeholder="2026" required>
+                </div>
+              </div>
+              <div class="nomor-preview">
+                <span>Pratinjau format nomor:</span>
+                <code id="nomorPreviewCode">001/PROKER/HMTI/XI/2026</code>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">Detail Tamu &amp; Waktu Kegiatan</div>
+              <div class="form-grid-2">
+                <div class="field">
+                  <label for="namaTamu">Nama Tamu Undangan</label>
+                  <input class="input-control" type="text" id="namaTamu" name="nama_tamu" placeholder="Nama lengkap tamu" required>
+                </div>
+                <div class="field">
+                  <label for="jabatanTamu">Jabatan Tamu Undangan</label>
+                  <input class="input-control" type="text" id="jabatanTamu" name="jabatan_tamu" placeholder="Contoh: Ketua Departemen" required>
+                </div>
+                <div class="field">
+                  <label for="lokasiTamu">Lokasi / Instansi Tamu</label>
+                  <input class="input-control" type="text" id="lokasiTamu" name="lokasi_tamu" placeholder="Contoh: Tembalang, Semarang" required>
+                </div>
+                <div class="field">
+                  <label for="namaKegiatan">Nama Kegiatan</label>
+                  <input class="input-control" type="text" id="namaKegiatan" name="nama_kegiatan" placeholder="Nama acara atau rapat" required>
+                </div>
+                <div class="field">
+                  <label for="waktuMulai">Waktu Mulai</label>
+                  <input class="input-control" type="time" id="waktuMulai" name="waktu_mulai" required>
+                </div>
+                <div class="field">
+                  <label for="waktuSelesai">Waktu Selesai</label>
+                  <input class="input-control" type="time" id="waktuSelesai" name="waktu_selesai" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <a href="surat-undangan.php" class="btn btn-outline">
+                <i class="bi bi-arrow-left"></i> Batal
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <span>Lanjut ke Tahap 2</span>
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="assets/js/hmti.js"></script>
 </body>
 
 </html>
-

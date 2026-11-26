@@ -7,244 +7,159 @@ $dbname = "HMTI_System";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch data from the database
 $sql = "SELECT su.id, su.nomor_surat, s.status FROM surat_undangan su
         JOIN surat s ON su.id = s.id";
 $result = $conn->query($sql);
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surat Undangan</title>
+  <title>Verifikasi Surat Undangan (Sekhim) — HMTI UNDIP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background-color: #fff;
-    }
-
-    header {
-      background-color: #fff;
-      padding: 20px 50px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 2px solid #ddd;
-      position: relative;
-    }
-
-    .logo-container {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .logo-container img {
-      height: 60px;
-      text-align: center;
-    }
-
-    .back-button {
-      background-color: #27224d;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: 0.3s;
-    }
-
-    .back-button:hover {
-      background-color: #1b2f54;
-    }
-
-    /* Hero Section */
-    .hero {
-      background: url('bg-surat-undangan.png') no-repeat center;
-      text-align: center;
-      color: #fff;
-      padding: 60px 20px;
-      font-size: 28px;
-      font-weight: bold;
-      position: relative;
-    }
-
-    .hero img {
-      height: 60px;
-      position: absolute;
-      top: 10px;
-    }
-
-    .hero img:first-child {
-      left: 20px;
-    }
-
-    .hero img:last-child {
-      right: 20px;
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: 32px;
-      text-transform: uppercase;
-    }
-
-    /* Table */
-    table {
-      width: 90%;
-      margin: 20px auto;
-      border-collapse: collapse;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    table th,
-    table td {
-      padding: 10px;
-      border: 1px solid #ddd;
-    }
-
-    table th {
-      background-color: #f4f4f4;
-      font-weight: bold;
-    }
-
-    table td .tracking-button {
-      display: inline-block;
-      padding: 5px 10px;
-      background-color: #eee;
-      border: 1px solid #ddd;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    table td .tracking-button:hover {
-      background-color: #ccc;
-    }
-
-    button {
-      padding: 8px 12px;
-      border: none;
-      border-radius: 5px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: 0.8;
-    }
-
-    .btn-success {
-      background-color: #28a745;
-      color: #fff;
-    }
-
-    .btn-danger {
-      background-color: #dc3545;
-      color: #fff;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/hmti.css">
 </head>
 
-<body>
-  <!-- Header -->
-  <header>
-    <div class="header-content">
-      <div class="logo-container">
-        <img src="logo-undip.png" alt="Logo Undip">
+<body class="app-page">
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="header-left">
+        <a href="homepage-sekhim.html" class="brand-link">
+          <img src="logo-undip.png" alt="Logo UNDIP dan HMTI">
+          <div class="brand-meta">
+            <strong>HMTI UNDIP</strong>
+            <span>Panel Sekretaris Himpunan</span>
+          </div>
+        </a>
       </div>
-      <a href="homepage.php" class="back-button">
-        <i class="bi bi-box-arrow-left" style="font-size: 25px;"></i> BACK
-      </a>
+
+      <div class="header-right">
+        <span class="role-chip"><i class="bi bi-clipboard-check"></i> Sekretaris Himpunan</span>
+        <a href="homepage-sekhim.html" class="btn btn-outline btn-sm">
+          <i class="bi bi-arrow-left"></i>
+          <span>Kembali</span>
+        </a>
+      </div>
     </div>
   </header>
 
-  <div class="hero">
-    <h1>SURAT UNDANGAN</h1>
-  </div>
-  <div class="search-bar">
-    <label for="search">Search:</label>
-    <input type="text" id="search" placeholder="Cari surat...">
-  </div>
+  <main class="app-main">
+    <section class="hero-banner hero-compact" style="background-image: url('bg-surat-undangan.png');">
+      <div class="hero-inner">
+        <span class="hero-eyebrow">Verifikasi Tahap 1 · Sekretaris Himpunan</span>
+        <h1>Surat Undangan</h1>
+        <p class="hero-subtitle">Periksa dokumen pengajuan surat undangan sebelum diteruskan ke Ketua Himpunan.</p>
+      </div>
+    </section>
 
-  <table>
-  <thead>
-    <tr>
-      <th>Nomor Surat</th>
-      <th>Surat</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php
-    // Query untuk mengambil data dan status dari tabel surat
-    $sql = "SELECT su.id, su.nomor_surat, s.status FROM surat_undangan su
-            JOIN surat s ON su.id = s.id";
-    $result = $conn->query($sql);
+    <div class="page-container">
+      <div class="toolbar">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" id="search" placeholder="Cari nomor surat atau status..." aria-label="Cari surat">
+        </div>
+      </div>
 
-    // Tampilkan data
-    if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $row['nomor_surat'] . "</td>";
-        echo "<td>";
-        echo "<a href='generate_undangan.php?id=" . $row['id'] . "' class='action-button'>Download</a>";
-        echo "</td>";
-        echo "<td>" . $row['status'] . "</td>";
-        echo "<td>";
-        // Menampilkan tombol Approve dan Reject jika status masih Pending
-        if ($row['status'] == 'Pending') {
-          echo "<form action='update-status-sekhim.php' method='POST' style='display:inline-block;'>
-                <input type='hidden' name='id' value='" . $row['id'] . "' />
-                <button type='submit' name='approve' class='btn btn-success'>Approve</button>
-              </form>";
-          echo "<form action='update-status-sekhim.php' method='POST' style='display:inline-block;'>
-                <input type='hidden' name='id' value='" . $row['id'] . "' />
-                <button type='submit' name='reject' class='btn btn-danger'>Reject</button>
-              </form>";
-        }
-        echo "</td>";
-        echo "</tr>";
-      }
-    } else {
-      echo "<tr><td colspan='4'>No data available</td></tr>";
-    }
-    ?>
-  </tbody>
-</table>
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nomor Surat</th>
+                <th>Dokumen</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if ($result && $result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()):
+                  $status = $row['status'];
+                  $badgeClass = 'status-pending';
+                  $badgeIcon = 'bi-hourglass-split';
+                  if ($status === 'Disetujui Ketua Himpunan') {
+                    $badgeClass = 'status-approved';
+                    $badgeIcon = 'bi-check-circle-fill';
+                  } elseif (stripos($status, 'Disetujui Sekre') !== false || $status === 'Menunggu Persetujuan Ketua Himpunan') {
+                    $badgeClass = 'status-review';
+                    $badgeIcon = 'bi-clock-history';
+                  } elseif ($status === 'Rejected') {
+                    $badgeClass = 'status-rejected';
+                    $badgeIcon = 'bi-x-circle-fill';
+                  }
+                  $canReview = in_array($status, ['Pending', 'Menunggu Persetujuan Sekrektaris Himpunan', 'Menunggu Persetujuan Sekretaris Himpunan'], true);
+                ?>
+                  <tr>
+                    <td><span class="doc-number"><?php echo htmlspecialchars($row['nomor_surat']); ?></span></td>
+                    <td>
+                      <a href="generate_undangan.php?id=<?php echo urlencode($row['id']); ?>" class="btn btn-download">
+                        <i class="bi bi-download"></i> Unduh DOCX
+                      </a>
+                    </td>
+                    <td>
+                      <span class="status-badge <?php echo $badgeClass; ?>">
+                        <i class="bi <?php echo $badgeIcon; ?>"></i>
+                        <?php echo htmlspecialchars($status); ?>
+                      </span>
+                    </td>
+                    <td>
+                      <?php if ($canReview): ?>
+                        <div class="action-group">
+                          <form action="update-status-sekhim.php" method="POST">
+                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
+                            <button type="submit" name="approve" class="btn btn-approve btn-sm">
+                              <i class="bi bi-check-lg"></i> Setujui
+                            </button>
+                          </form>
+                          <form action="update-status-sekhim.php" method="POST">
+                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
+                            <button type="submit" name="reject" class="btn btn-reject btn-sm">
+                              <i class="bi bi-x-lg"></i> Tolak
+                            </button>
+                          </form>
+                        </div>
+                      <?php elseif ($status === 'Rejected'): ?>
+                        <span class="muted-label">Ditolak</span>
+                      <?php else: ?>
+                        <span class="muted-label">Telah diverifikasi</span>
+                      <?php endif; ?>
+                    </td>
+                  </tr>
+                <?php endwhile; ?>
+              <?php else: ?>
+                <tr class="js-static-empty">
+                  <td colspan="4" class="empty-state">
+                    <i class="bi bi-inbox"></i>
+                    Belum ada data surat undangan.
+                  </td>
+                </tr>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
 
-<script>
-  document.getElementById('search').addEventListener('input', function () {
-    const query = this.value.toLowerCase(); // Ambil teks pencarian dalam huruf kecil
-    const items = document.querySelectorAll('#surat-list li'); // Ambil semua elemen <li>
+  <footer class="app-footer">
+    <div class="app-footer-inner">
+      <span>Himpunan Mahasiswa Teknik Industri · Universitas Diponegoro</span>
+      <div class="app-footer-links">
+        <a href="homepage-sekhim.html"><i class="bi bi-house"></i> Beranda Sekhim</a>
+      </div>
+    </div>
+  </footer>
 
-    items.forEach(item => {
-      // Cocokkan teks pencarian dengan teks elemen <li>
-      if (item.textContent.toLowerCase().includes(query)) {
-        item.style.display = ''; // Tampilkan jika cocok
-      } else {
-        item.style.display = 'none'; // Sembunyikan jika tidak cocok
-      }
-    });
-  });
-</script>
+  <script src="assets/js/hmti.js"></script>
 </body>
 
 </html>
