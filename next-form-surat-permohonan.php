@@ -1,20 +1,11 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "HMTI_System";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-  $surat_id = $_GET['id'];
-} else {
-  die("Invalid Surat ID.");
+require_once __DIR__ . '/includes/bootstrap.php';
+hmti_require_auth(['anggota']);
+$surat_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$surat_id || $surat_id <= 0) {
+  hmti_set_flash('error', 'ID surat tidak valid.');
+  header('Location: surat-permohonan.php');
+  exit();
 }
 ?>
 <!DOCTYPE html>
@@ -74,7 +65,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         </div>
 
         <div class="form-card-body">
-          <form id="dataForm" action="submit-next-form-surat-permohonan.php?id=<?php echo htmlspecialchars($surat_id); ?>" method="POST">
+          <?php echo hmti_render_flash(); ?>
+          <form id="dataForm" action="submit-next-form-surat-permohonan.php?id=<?php echo htmlspecialchars((string) $surat_id); ?>" method="POST">
+            <?php echo hmti_csrf_field(); ?>
             <div class="form-section">
               <div class="form-section-title">Lokasi &amp; Isi Permohonan</div>
               <div class="form-grid-2">
