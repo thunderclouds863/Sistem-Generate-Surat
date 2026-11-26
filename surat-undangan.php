@@ -5,299 +5,162 @@ if ($conn->connect_error) {
 }
 
 // Query data dari tabel surat_undangan dan status dari tabel surat
-$sql = "SELECT su. id, su.nomor_surat, su.bidang_organisasi, s.status
+$sql = "SELECT su.id, su.nomor_surat, su.bidang_organisasi, s.status
         FROM surat_undangan su
         JOIN surat s ON su.id = s.id";
 $result = $conn->query($sql);
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surat Undangan</title>
+  <title>Surat Undangan — HMTI UNDIP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
-    /* Styling Tracking Button */
-    .tracking-button {
-      display: inline-block;
-      padding: 5px 10px;
-      border: 1px solid #ddd;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 14px;
-      background-color: #fff;
-      /* Default polos */
-      color: #000;
-    }
-
-    .tracking-button.dark-gray {
-      background-color: #aaa;
-      /* Abu-abu gelap */
-      color: #fff;
-    }
-
-    .tracking-button.red {
-      background-color: #f44336;
-      /* Merah */
-      color: #fff;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background-color: #fff;
-    }
-
-    header {
-      background-color: #fff;
-      padding: 20px 50px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 2px solid #ddd;
-      position: relative;
-    }
-
-    .logo-container {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .logo-container img {
-      height: 60px;
-      text-align: center;
-    }
-
-    .action-button {
-      display: block;
-      margin: 20px auto;
-      padding: 15px 30px;
-      background-color: #ffd700;
-      color: #000;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 5px;
-      font-size: 18px;
-      text-align: center;
-      width: 150px;
-      border-radius: 30px;
-    }
-
-    .action-button:hover {
-      background-color: #e6bf00;
-    }
-
-    .action-button img {
-      vertical-align: middle;
-      margin-right: 10px;
-    }
-
-    .back-button {
-      background-color: #27224d;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: 0.3s;
-    }
-
-    .back-button:hover {
-      background-color: #1b2f54;
-    }
-
-    /* Hero Section */
-    .hero {
-      background: url('bg-surat-undangan.png') no-repeat center;
-      text-align: center;
-      color: #fff;
-      padding: 60px 20px;
-      font-size: 28px;
-      font-weight: bold;
-      position: relative;
-    }
-
-    .hero img {
-      height: 60px;
-      position: absolute;
-      top: 10px;
-    }
-
-    .hero img:first-child {
-      left: 20px;
-    }
-
-    .hero img:last-child {
-      right: 20px;
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: 32px;
-      text-transform: uppercase;
-    }
-
-
-    /* Search Bar */
-    .search-bar {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .search-bar label {
-      margin-right: 10px;
-      font-size: 16px;
-    }
-
-    .search-bar input {
-      width: 80%;
-      max-width: 500px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 14px;
-    }
-
-    /* Table */
-    table {
-      width: 90%;
-      margin: 20px auto;
-      border-collapse: collapse;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    table th,
-    table td {
-      padding: 10px;
-      border: 1px solid #ddd;
-    }
-
-    table th {
-      background-color: #f4f4f4;
-      font-weight: bold;
-    }
-
-    table td .tracking-button {
-      display: inline-block;
-      padding: 5px 10px;
-      background-color: #eee;
-      border: 1px solid #ddd;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    table td .tracking-button:hover {
-      background-color: #ccc;
-    }
-  </style>
-
+  <link rel="stylesheet" href="assets/css/hmti.css">
 </head>
 
-<body>
-  <!-- Header -->
-  <header>
-    <div class="header-content">
-      <div class="logo-container">
-        <img src="logo-undip.png" alt="Logo Undip">
+<body class="app-page">
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="header-left">
+        <a href="homepage.php" class="brand-link">
+          <img src="logo-undip.png" alt="Logo UNDIP dan HMTI">
+          <div class="brand-meta">
+            <strong>HMTI UNDIP</strong>
+            <span>Sistem Administrasi Surat</span>
+          </div>
+        </a>
       </div>
-      <a href="homepage.php" class="back-button">
-        <i class="bi bi-box-arrow-left" style="font-size: 25px;"></i> BACK
-      </a>
+
+      <div class="header-right">
+        <a href="homepage.php" class="btn btn-outline btn-sm">
+          <i class="bi bi-arrow-left"></i>
+          <span>Kembali</span>
+        </a>
+      </div>
     </div>
   </header>
 
-  <div class="hero">
-    <h1>SURAT UNDANGAN</h1>
-  </div>
+  <main class="app-main">
+    <section class="hero-banner hero-compact" style="background-image: url('bg-surat-undangan.png');">
+      <div class="hero-inner">
+        <span class="hero-eyebrow">Dokumen Administrasi · Anggota</span>
+        <h1>Surat Undangan</h1>
+        <p class="hero-subtitle">Buat pengajuan baru, pantau tahapan verifikasi, dan unduh surat yang telah disetujui.</p>
+      </div>
+    </section>
 
-  <a href="form-surat-undangan.php" class="action-button">
-    <i class="bi bi-envelope-paper" style="font-size: 25px;"></i>
-    BUAT SURAT
-  </a>
-  <div class="search-bar">
-    <label for="search">Search:</label>
-    <input type="text" id="search" placeholder="Cari surat...">
-  </div>
+    <div class="page-container">
+      <div class="toolbar">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" id="search" placeholder="Cari nomor surat, bidang, atau status..." aria-label="Cari surat">
+        </div>
+        <a href="form-surat-undangan.php" class="btn btn-primary">
+          <i class="bi bi-plus-lg"></i>
+          <span>Buat Surat Undangan</span>
+        </a>
+      </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Nomor Surat</th>
-        <th>Bidang</th>
-        <th>Tracking Surat</th>
-        <th>Status/File</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php while ($row = $result->fetch_assoc()):
-        // Tentukan kelas button berdasarkan status
-        $tracking1_class = ''; // Default polos
-        $tracking2_class = ''; // Default polos
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nomor Surat</th>
+                <th>Bidang</th>
+                <th>Tahap Persetujuan</th>
+                <th>Status &amp; Dokumen</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if ($result && $result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()):
+                  $status = $row['status'];
+                  $step1 = '';
+                  $step2 = '';
+                  $badgeClass = 'status-pending';
+                  $badgeIcon = 'bi-hourglass-split';
 
-        if ($row['status'] == 'Menunggu Persetujuan Sekretaris Himpunan' || $row['status'] == 'Disetujui Sekretaris Himpunan') {
-          $tracking1_class = 'dark-gray';
-        }
-        if ($row['status'] == 'Menunggu Persetujuan Ketua Himpunan' || $row['status'] == 'Disetujui Ketua Himpunan') {
-          $tracking1_class = 'dark-gray';
-          $tracking2_class = 'dark-gray';
-        }
-        if ($row['status'] == 'Rejected') {
-          $tracking1_class = 'red';
-          $tracking2_class = 'red';
-        }
-        ?>
-        <tr>
-          <td><?php echo $row['nomor_surat']; ?></td>
-          <td><?php echo $row['bidang_organisasi']; ?></td>
-          <td>
-            <span class="tracking-button <?php echo $tracking1_class; ?>">1</span>
-            <span class="tracking-button <?php echo $tracking2_class; ?>">2</span>
-          </td>
-          <td>
-            <?php
-            echo htmlspecialchars($row['status']); // Menampilkan status surat
+                  if (stripos($status, 'Menunggu Persetujuan Sekre') !== false) {
+                    $step1 = 'is-active';
+                    $badgeClass = 'status-pending';
+                  } elseif (stripos($status, 'Disetujui Sekre') !== false || $status === 'Menunggu Persetujuan Ketua Himpunan') {
+                    $step1 = 'is-done';
+                    $step2 = 'is-active';
+                    $badgeClass = 'status-review';
+                    $badgeIcon = 'bi-clock-history';
+                  } elseif ($status === 'Disetujui Ketua Himpunan') {
+                    $step1 = 'is-done';
+                    $step2 = 'is-done';
+                    $badgeClass = 'status-approved';
+                    $badgeIcon = 'bi-check-circle-fill';
+                  } elseif ($status === 'Rejected') {
+                    $step1 = 'is-rejected';
+                    $step2 = 'is-rejected';
+                    $badgeClass = 'status-rejected';
+                    $badgeIcon = 'bi-x-circle-fill';
+                  }
+                ?>
+                  <tr>
+                    <td><span class="doc-number"><?php echo htmlspecialchars($row['nomor_surat']); ?></span></td>
+                    <td><span class="bidang-tag"><?php echo htmlspecialchars($row['bidang_organisasi'] ?: '-'); ?></span></td>
+                    <td>
+                      <div class="stepper" aria-label="Tahap persetujuan surat">
+                        <span class="step-node <?php echo $step1; ?>" title="Tahap 1: Sekretaris Himpunan">
+                          <span class="step-dot">1</span> Sekhim
+                        </span>
+                        <span class="step-line" aria-hidden="true"></span>
+                        <span class="step-node <?php echo $step2; ?>" title="Tahap 2: Ketua Himpunan">
+                          <span class="step-dot">2</span> Kahim
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-badge <?php echo $badgeClass; ?>">
+                          <i class="bi <?php echo $badgeIcon; ?>"></i>
+                          <?php echo htmlspecialchars($status); ?>
+                        </span>
+                        <?php if ($status === 'Disetujui Ketua Himpunan'): ?>
+                          <a href="generate_undangan.php?id=<?php echo urlencode($row['id']); ?>" class="btn btn-download">
+                            <i class="bi bi-download"></i> Unduh DOCX
+                          </a>
+                        <?php endif; ?>
+                      </div>
+                    </td>
+                  </tr>
+                <?php endwhile; ?>
+              <?php else: ?>
+                <tr class="js-static-empty">
+                  <td colspan="4" class="empty-state">
+                    <i class="bi bi-envelope-paper"></i>
+                    Belum ada pengajuan surat undangan.
+                  </td>
+                </tr>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
 
-            // Cek jika statusnya 'Disetujui Ketua Himpunan', tampilkan tombol Download
-            if ($row['status'] === 'Disetujui Ketua Himpunan') {
-              echo "<br><a href='generate_undangan.php?id=" . $row['id'] . "' class='action-button-download'>Download</a>";
-            }
+  <footer class="app-footer">
+    <div class="app-footer-inner">
+      <span>Himpunan Mahasiswa Teknik Industri · Universitas Diponegoro</span>
+      <div class="app-footer-links">
+        <a href="homepage.php"><i class="bi bi-house"></i> Beranda</a>
+      </div>
+    </div>
+  </footer>
 
-            // Jika status sudah Rejected, tidak perlu tampilkan tombol
-            if ($row['status'] === 'Rejected') {
-            }
-            ?>
-          </td>
-        </tr>
-      <?php endwhile; ?>
-    </tbody>
-  </table>
-
+  <script src="assets/js/hmti.js"></script>
 </body>
-<script>
-  document.getElementById('search').addEventListener('input', function () {
-    const query = this.value.toLowerCase(); // Ambil teks pencarian dalam huruf kecil
-    const items = document.querySelectorAll('#surat-list li'); // Ambil semua elemen <li>
-
-    items.forEach(item => {
-      // Cocokkan teks pencarian dengan teks elemen <li>
-      if (item.textContent.toLowerCase().includes(query)) {
-        item.style.display = ''; // Tampilkan jika cocok
-      } else {
-        item.style.display = 'none'; // Sembunyikan jika tidak cocok
-      }
-    });
-  });
-</script>
 
 </html>
