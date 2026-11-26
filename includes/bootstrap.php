@@ -146,3 +146,22 @@ function hmti_jenis_slug(string $jenis): string
     if ($j === 'permohonan') return 'permohonan';
     return 'undangan';
 }
+
+/**
+ * Ensures the password_resets table exists even on databases initialized before this migration.
+ */
+function hmti_ensure_password_resets_table(mysqli $conn): void
+{
+    $conn->query(
+        "CREATE TABLE IF NOT EXISTS password_resets (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            token_hash VARCHAR(64) NOT NULL,
+            expires_at DATETIME NOT NULL,
+            used_at DATETIME DEFAULT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_token_hash (token_hash),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        )"
+    );
+}
