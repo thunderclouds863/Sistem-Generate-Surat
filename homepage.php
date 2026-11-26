@@ -35,6 +35,10 @@ $username = $_SESSION['username'];
           <i class="bi bi-person-badge"></i>
           Anggota · <?php echo htmlspecialchars($username); ?>
         </span>
+        <a href="change_password.php" class="btn btn-outline btn-sm" title="Ubah Password">
+          <i class="bi bi-key"></i>
+          <span>Password</span>
+        </a>
         <a href="logout.php" class="btn btn-navy btn-sm">
           <i class="bi bi-box-arrow-right"></i>
           <span>Keluar</span>
@@ -44,16 +48,11 @@ $username = $_SESSION['username'];
   </header>
 
   <main class="app-main">
-    <section class="hero-split">
-      <div class="hero-split-inner">
-        <div class="hero-split-copy">
-          <span class="hero-eyebrow">Portal Anggota HMTI</span>
-          <h1>Dokumen Administrasi</h1>
-          <p class="hero-subtitle">Pilih jenis surat untuk membuat pengajuan baru, memantau status persetujuan, dan mengunduh dokumen resmi.</p>
-        </div>
-        <div class="hero-split-media">
-          <img src="teknik-industri2.png" alt="Gedung Departemen Teknik Industri Universitas Diponegoro">
-        </div>
+    <section class="hero-banner" style="background-image: url('teknik-industri2.png');">
+      <div class="hero-inner">
+        <span class="hero-eyebrow">Portal Anggota HMTI</span>
+        <h1>Dokumen Administrasi</h1>
+        <p class="hero-subtitle">Pilih jenis surat untuk membuat pengajuan baru, memantau status persetujuan, dan mengunduh dokumen resmi.</p>
       </div>
     </section>
 

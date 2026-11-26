@@ -111,44 +111,48 @@ textarea {
 
 /* ==========================================================================
    AUTH PAGES (index.html, login_role.php, register.php)
-   Split architectural layout: dedicated unobstructed campus visual + form panel
+   Full-bleed building background with unobstructed left showcase & right auth card
    ========================================================================== */
 
 body.auth-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-page);
+  background-color: var(--navy-950);
+  background-image:
+    linear-gradient(
+      95deg,
+      rgba(12, 20, 43, 0.14) 0%,
+      rgba(12, 20, 43, 0.24) 44%,
+      rgba(12, 20, 43, 0.72) 70%,
+      rgba(12, 20, 43, 0.92) 100%
+    ),
+    url('../../teknik-industri.png');
+  background-size: cover;
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   overflow-x: hidden;
 }
 
 .auth-split {
   flex: 1;
   min-height: 100vh;
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1.15fr minmax(360px, 460px);
+  align-items: stretch;
 }
 
-/* Left visual panel: preserves teknik-industri.png building & baked-in HMTI logo unobstructed */
+/* Left visual area: transparent over full-bleed building & HMTI logo, contacts at bottom */
 .auth-visual {
   position: relative;
-  background-color: var(--navy-950);
-  background-image:
-    linear-gradient(
-      180deg,
-      rgba(12, 20, 43, 0.06) 0%,
-      rgba(12, 20, 43, 0.12) 55%,
-      rgba(12, 20, 43, 0.88) 100%
-    ),
-    url('../../teknik-industri.png');
-  background-size: cover;
-  background-position: left center;
-  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 32px 36px;
-  border-right: 3px solid var(--gold-500);
+  padding: 32px 40px;
 }
 
 .auth-context-footer {
@@ -156,14 +160,21 @@ body.auth-page {
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px 28px;
+  gap: 14px 24px;
+  padding: 12px 18px;
+  width: fit-content;
+  border-radius: var(--radius-md);
+  background: rgba(12, 20, 43, 0.56);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .auth-contact-item {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.94);
   font-size: 0.8125rem;
   transition: color var(--transition);
 }
@@ -173,15 +184,15 @@ body.auth-page {
 }
 
 .auth-contact-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: rgba(12, 20, 43, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--gold-400);
   flex-shrink: 0;
 }
@@ -199,27 +210,24 @@ body.auth-page {
   color: rgba(255, 255, 255, 0.68);
 }
 
-/* Right form panel: clean dedicated surface with subtle blueprint dot grid */
+/* Right area: transparent over the dark-navy side of teknik-industri.png */
 .auth-panel {
-  background-color: var(--bg-page);
-  background-image: radial-gradient(rgba(20, 31, 70, 0.06) 1px, transparent 1px);
-  background-size: 24px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 32px 84px;
+  padding: 36px 32px 84px;
 }
 
 /* Auth Card */
 .auth-card {
   width: 100%;
   max-width: 430px;
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.97);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
 }
 
@@ -1498,33 +1506,48 @@ table.data-table tbody tr:hover {
 }
 
 @media (max-width: 860px) {
+  body.auth-page {
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(12, 20, 43, 0.62) 0%,
+        rgba(12, 20, 43, 0.84) 100%
+      ),
+      url('../../teknik-industri2.png');
+    background-position: center 30%;
+  }
+
   .auth-split {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
   }
 
   .auth-visual {
-    min-height: 170px;
-    background-image:
-      linear-gradient(180deg, rgba(12, 20, 43, 0.08) 0%, rgba(12, 20, 43, 0.35) 100%),
-      url('../../teknik-industri2.png');
-    background-position: center 30%;
-    border-right: none;
-    border-bottom: 3px solid var(--gold-500);
-    padding: 16px;
-  }
-
-  .auth-visual .auth-context-footer {
     display: none;
   }
 
   .auth-panel {
     padding: 28px 16px 84px;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .auth-mobile-footer {
     display: flex;
+    margin-top: 22px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    font-size: 0.8125rem;
+  }
+
+  .auth-mobile-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .auth-mobile-footer a:hover {
+    color: var(--gold-400);
   }
 
   .form-grid-4 {
