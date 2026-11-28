@@ -25,7 +25,7 @@ if (is_file('/var/www/html/deploy/db_compat.php')) require_once '/var/www/html/d
         . 'background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border:1px solid #d5dce8;border-radius:12px;'
         . 'box-shadow:0 8px 24px rgba(12,20,43,.22);padding:10px 14px;font:12.5px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#111827;text-align:left">'
         . '<summary style="cursor:pointer;font-weight:700;color:#141f46;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px">'
-        . '<span>Akun Demo</span><span style="font-size:11px;font-weight:500;color:#667085">Klik untuk lihat</span></summary>'
+        . '<span>Akun Demo</span><span style="font-size:11px;font-weight:500;color:#667085">Reset otomatis tiap minggu</span></summary>'
         . '<table style="margin-top:8px;border-collapse:collapse;width:100%;font-size:12px">'
         . '<tr style="color:#667085;border-bottom:1px solid #e2e7f0"><th style="text-align:left;padding-bottom:4px">Role</th><th style="text-align:left;padding:0 6px 4px">User</th><th style="text-align:left;padding:0 0 4px 6px">Pass</th></tr>' . $rows . '</table>'
         . $note . '</details>';

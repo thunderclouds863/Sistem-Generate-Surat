@@ -28,17 +28,37 @@ if ($role === 'anggota' && $row['status'] !== 'Disetujui Ketua Himpunan') {
 
 $cmd = 'python ' . escapeshellarg(__DIR__ . '/generate_peminjaman.py') . ' ' . escapeshellarg((string) $surat_id);
 $output = shell_exec($cmd);
-$relativePath = trim((string) $output);
-$fullPath = realpath(__DIR__ . '/' . $relativePath);
+$rawPath = trim((string) $output);
+$candidate = (strpos($rawPath, '/') === 0) ? $rawPath : (__DIR__ . '/' . $rawPath);
+$fullPath = realpath($candidate);
 $baseDir = realpath(__DIR__);
+$tmpBase = realpath('/tmp/hmti_surat');
+$allowed = $fullPath && (
+    ($baseDir && strpos($fullPath, $baseDir) === 0) ||
+    ($tmpBase && strpos($fullPath, $tmpBase) === 0)
+);
 
-if (!$fullPath || !$baseDir || strpos($fullPath, $baseDir) !== 0 || !is_file($fullPath)) {
+if (!$allowed || !is_file($fullPath)) {
     http_response_code(500);
     die('Terjadi kesalahan saat menghasilkan dokumen surat peminjaman.');
+}
+
+if (function_exists('demo_blob_upload')) {
+    $blobUrl = demo_blob_upload(
+        $fullPath,
+        'generate-surat/peminjaman/' . basename($fullPath),
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    );
+    if ($blobUrl) {
+        header('X-Document-Archive-Url: ' . $blobUrl);
+    }
 }
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 header('Content-Disposition: attachment; filename="' . basename($fullPath) . '"');
 header('Content-Length: ' . filesize($fullPath));
 readfile($fullPath);
+if ($tmpBase && strpos($fullPath, $tmpBase) === 0) {
+    @unlink($fullPath);
+}
 exit();

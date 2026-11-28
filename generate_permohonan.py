@@ -11,10 +11,9 @@ else:
     print("ID surat tidak diberikan!")
     sys.exit(1)
 
-# Pastikan folder "Surat Permohonan" ada, jika belum buat
-folder_path = "Surat Permohonan"
-if not os.path.exists(folder_path):
-    os.makedirs(folder_path)
+# Gunakan /tmp saat deploy container eksternal (always writable); lokal tetap di folder proyek
+folder_path = "/tmp/hmti_surat/permohonan" if os.getenv("DB_HOST") else "Surat Permohonan"
+os.makedirs(folder_path, exist_ok=True)
 
 def get_indonesian_month(month):
     bulan = {
@@ -41,14 +40,19 @@ def format_waktu(waktu):
 class SuratGenerator:
     def __init__(self):
         try:
-            self.conn = mysql.connector.connect(
-                host=os.getenv("DB_HOST", "127.0.0.1"),
+            db_host = os.getenv("DB_HOST", "127.0.0.1")
+            conn_kwargs = dict(
+                host=db_host,
                 port=int(os.getenv("DB_PORT", "3306")),
                 user=os.getenv("DB_USER", "root"),
                 password=os.getenv("DB_PASSWORD", os.getenv("DB_PASS", "")),
-                database=os.getenv("DB_NAME", "HMTI_System"),
-                sql_mode="NO_ENGINE_SUBSTITUTION"
+                database=os.getenv("DB_NAME", os.getenv("DEMO_DB_NAME", "HMTI_System")),
+                sql_mode="NO_ENGINE_SUBSTITUTION",
             )
+            if db_host not in ("127.0.0.1", "localhost") and os.getenv("DB_SSL", "1") != "0":
+                conn_kwargs["ssl_ca"] = os.getenv("DB_SSL_CA", "/etc/ssl/certs/ca-certificates.crt")
+                conn_kwargs["ssl_verify_cert"] = True
+            self.conn = mysql.connector.connect(**conn_kwargs)
             self.cursor = self.conn.cursor(dictionary=True)
         except mysql.connector.Error as e:
             raise Exception(f"Database connection error: {str(e)}")
