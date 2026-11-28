@@ -27,7 +27,7 @@ function hmti_db(): mysqli
     $name = getenv('DB_NAME') ?: 'HMTI_System';
     $port = getenv('DB_PORT') ? (int) getenv('DB_PORT') : 3306;
 
-    $conn = new mysqli($host, $user, $pass, $name, $port);
+    $conn = demo_mysqli($host, $user, $pass, $name, $port);
     if ($conn->connect_error) {
         http_response_code(500);
         die('Koneksi database gagal. Silakan periksa layanan database.');
